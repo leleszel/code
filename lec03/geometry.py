@@ -1,6 +1,6 @@
 """Some computational geometry."""
 
-from math import sqrt
+from math import sqrt, pi
 from typing import NamedTuple
 
 # 1. Data definitions
@@ -63,6 +63,52 @@ def manhattan_distance(p1: Position, p2: Position) -> float:
     2
     """
     return abs(p1.x - p2.x) + abs(p1.y - p2.y)
+
+
+class Circle(NamedTuple):
+    """Represents a circle positioned on a 2-D plane."""
+    center: Position
+    radius: float
+
+    def area(self) -> float:
+        """Computes the area of a circle."""
+        return pi * self.radius * self.radius
+
+    def contains(self, p: Position) -> bool:
+        """Does this circle contain position `p`?"""
+        return distance(p, self.center) < self.radius
+
+
+class Rectangle(NamedTuple):
+    upper_left: Position
+    width:      float
+    height:     float
+
+    def area(self) -> float:
+        """Computes the area of a rectangle."""
+        return self.width * self.height
+
+    def left(self) -> float:
+        """The x coordinate of the left side of the rectangle."""
+        return self.upper_left.x
+
+    def right(self) -> float:
+        """The x coordinate of the right side of the rectangle."""
+        return self.upper_left.x + self.width
+
+    def top(self) -> float:
+        """The y coordinate of the top side of the rectangle."""
+        return self.upper_left.y
+
+    def bottom(self) -> float:
+        """The y coordinate of the bottom side of the rectangle."""
+        return self.upper_left.y + self.height
+
+    def contains(self, p: Position) -> bool:
+        """Does this rectangle contain position `p`?"""
+        return (self.left() < p.x < self.right() and
+                self.top() < p.y < self.bottom())
+
 
 
 
