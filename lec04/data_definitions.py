@@ -52,6 +52,8 @@ class Ride:
     end:        Location
 
 
+# testing git remotes
+
 # Example 2: cardinal directions
 
 
