@@ -45,10 +45,9 @@ def extract_ints(lines: Iterable[str]) -> List[int]:
                 else:
                     result.append(int(token))
                     state = State.START
-        # TODO at end of line (right here):
-        #  - check if line ended in a number
-        #  - reset state to START
-
+        if state is State.IN_NUMBER:
+            result.append(int(token))
+        state = State.START
     return result
 
 
