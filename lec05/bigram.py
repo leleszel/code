@@ -2,9 +2,57 @@
 
 import random
 from enum import Enum, auto
-from typing import List, Tuple
+from typing import List, Tuple, Iterable
 
 from lib230 import record, Factory
+
+
+def extract_ints(lines: Iterable[str]) -> List[int]:
+    """Extracts all natural numbers in the given text into a list.
+
+    >>> extract_ints(["hello 6", "goodbye 75"])
+    [6, -75]
+    >>> extract_ints(["hello6"])
+    []
+    >>> extract_ints(["hello,6"])
+    [6]
+    """
+    class State(Enum):
+        START = auto()
+        IN_WORD = auto()
+        IN_NUMBER = auto()
+
+    result = []
+    token = ''
+    state = State.START
+
+
+    for line in lines:
+        for c in line:
+            if state is State.START:
+                if c.isalpha():
+                    state = State.IN_WORD
+                elif c.isdigit():
+                    token = c
+                    state = State.IN_NUMBER
+                else:
+                    pass  # stays in START state
+            elif state is State.IN_WORD:
+                if c.isalnum():
+                    pass  # stays in IN_WORD state
+                else:
+                    state = State.START
+            else:
+                if c.isalpha():
+                    state = State.IN_WORD
+                elif c.isdigit():
+                    token += c
+                    # stays in IN_NUMBER state
+                else:
+                    result.append(int(token))
+                    state = State.START
+
+    return result
 
 
 # `is` versus `==`
