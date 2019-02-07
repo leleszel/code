@@ -1,82 +1,9 @@
 """Bigrams are pairs of adjacent words."""
 
 import random
-from enum import Enum, auto
-from typing import List, Tuple, Iterable
+from typing import List, Tuple
 
 from lib230 import record, Factory
-
-
-def extract_ints(lines: Iterable[str]) -> List[int]:
-    """Extracts all natural numbers in the given text into a list.
-
-    >>> extract_ints(["hello 6", "goodbye 75"])
-    [6, -75]
-    >>> extract_ints(["hello6"])
-    []
-    >>> extract_ints(["hello,6"])
-    [6]
-    """
-    class State(Enum):
-        START = auto()
-        IN_WORD = auto()
-        IN_NUMBER = auto()
-
-    result = []
-    token = ''
-    state = State.START
-
-
-    for line in lines:
-        for c in line:
-            if state is State.START:
-                if c.isalpha():
-                    state = State.IN_WORD
-                elif c.isdigit():
-                    token = c
-                    state = State.IN_NUMBER
-                else:
-                    pass  # stays in START state
-            elif state is State.IN_WORD:
-                if c.isalnum():
-                    pass  # stays in IN_WORD state
-                else:
-                    state = State.START
-            else:
-                if c.isalpha():
-                    state = State.IN_WORD
-                elif c.isdigit():
-                    token += c
-                    # stays in IN_NUMBER state
-                else:
-                    result.append(int(token))
-                    state = State.START
-
-    return result
-
-
-# `is` versus `==`
-@record
-class Foo:
-    """Foo.
-
-    >>> f1 = Foo(3, 4)
-    >>> f2 = Foo(3, 4)
-    >>> f3 = Foo(4, 5)
-    >>> f4 = f1
-    >>> f1 is f1
-    True
-    >>> f2 is f2
-    True
-    >>> f1 is f4
-    True
-    >>> f1 is f2
-    False
-    >>> f1 == f2
-    True
-    """
-    a: int
-    b: int
 
 
 _Bigram = Tuple[str, str]
