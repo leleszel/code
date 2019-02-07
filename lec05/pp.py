@@ -21,7 +21,6 @@ def extract_ints(lines: Iterable[str]) -> List[int]:
     token = ''
     state = State.START
 
-
     for line in lines:
         for c in line:
             if state is State.START:
