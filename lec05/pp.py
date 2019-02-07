@@ -114,10 +114,10 @@ def print_text(words: List[str], width: int = 72) -> None:
 
 
 def tokenize_text(lines: List[str]) -> List[str]:
-    """Given a list of lines, tokenizes the text into words, individual
-    punctuation marks, and paragraph separators (represented as ''). The
-    result always starts and ends with a paragraph separator, and there
-    is never more than one paragraph separator in a row.
+    """Tokenizes text into words, individual punctuation marks,
+    and paragraph separators (represented as ''). The result always
+    starts and ends with a paragraph separator, and there is never more
+    than one paragraph separator in a row.
 
     >>> tokenize_text(['Mathematical reasoning may be regarded'])
     ['', 'Mathematical', 'reasoning', 'may', 'be', 'regarded', '']
