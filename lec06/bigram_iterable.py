@@ -1,7 +1,7 @@
 """Bigrams are pairs of adjacent words."""
 
 import random
-from typing import List, Tuple
+from typing import List, Tuple, Iterable
 
 from lib230 import record
 
@@ -9,7 +9,7 @@ from lib230 import record
 _Bigram = Tuple[str, str]
 
 
-def _bigrams_in(corpus: List[str]) -> List[_Bigram]:
+def _bigrams_in(corpus: Iterable[str]) -> List[_Bigram]:
     """Turns a source of strings into a source of its bigrams. In particular,
     apply this to an iterable that produces the words in a corpus, and the
     resulting iterable produces the bigrams in the corpus.
@@ -17,13 +17,12 @@ def _bigrams_in(corpus: List[str]) -> List[_Bigram]:
     >>> list(_bigrams_in(['a', 'b', 'c', 'd']))
     [('a', 'b'), ('b', 'c'), ('c', 'd')]
     """
-    result: List[_Bigram] = []
     previous = None
     for current in corpus:
+        print('current is {}'.format(current))
         if previous is not None:
-            result.append((previous, current))
+            yield (previous, current)
         previous = current
-    return result
 
 
 # The `init=False` option to @record tells it not to define

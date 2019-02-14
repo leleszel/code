@@ -1,4 +1,4 @@
-from typing import Callable, Iterator, List, Optional
+from typing import Callable, Iterator, Iterable, List, Optional
 
 from lib230 import record
 
@@ -53,47 +53,51 @@ class EmployeeRoll:
         """Adds an employee to the list of employees."""
         self._employees.append(employee)
 
-    def find_by_id(self, id: int) -> Optional[Employee]:
-        """Finds the employee with the given id, if any.
-
-        >>> roll = EmployeeRoll()
-        >>> roll.append(Employee('Alice', 2))
-        >>> roll.append(Employee('Bob', 4))
-        >>> roll.find_by_id(2)
-        Alice(2)
-        >>> roll.find_by_id(3)
-        >>> roll.find_by_id(4)
-        Bob(4)
-        """
-        pass  # TODO
-
-    def find_by_mgr_id(self, mgr_id: int) -> List[Employee]:
-        """Finds all employees with the given manager id.
-
-        >>> roll = EmployeeRoll()
-        >>> roll.append(Employee('Alice', 2, mgr_id=1))
-        >>> roll.append(Employee('Bob', 4, mgr_id=2))
-        >>> roll.append(Employee('Carol', 6, mgr_id=2))
-        >>> roll.find_by_mgr_id(1)
-        [Alice(2)]
-        >>> roll.find_by_mgr_id(2)
-        [Bob(4), Carol(6)]
-        >>> roll.find_by_mgr_id(3)
-        []
-        """
-        pass  # TODO
-
-    def all_names(self) -> List[str]:
-        """Returns a list of all employees' names.
-
-        >>> roll = EmployeeRoll()
-        >>> roll.append(Employee('Alice', 2))
-        >>> roll.append(Employee('Bob', 4))
-        >>> roll.append(Employee('Carol', 6))
-        >>> roll.all_names()
-        ['Alice', 'Bob', 'Carol']
-        """
-        pass  # TODO
+    # def find_by_id(self, id: int) -> Optional[Employee]:
+    #     """Finds the employee with the given id, if any.
+    #
+    #     >>> roll = EmployeeRoll()
+    #     >>> roll.append(Employee('Alice', 2))
+    #     >>> roll.append(Employee('Bob', 4))
+    #     >>> roll.find_by_id(2)
+    #     Alice(2)
+    #     >>> roll.find_by_id(3)
+    #     >>> roll.find_by_id(4)
+    #     Bob(4)
+    #     """
+    #     pass  # TODO
+    #
+    # def find_by_mgr_id(self, mgr_id: int) -> Iterable[Employee]:
+    #     """Finds all employees with the given manager id.
+    #
+    #     >>> roll = EmployeeRoll()
+    #     >>> roll.append(Employee('Alice', 2, mgr_id=1))
+    #     >>> roll.append(Employee('Bob', 4, mgr_id=2))
+    #     >>> roll.append(Employee('Carol', 6, mgr_id=2))
+    #     >>> list(roll.find_by_mgr_id(1))
+    #     [Alice(2)]
+    #     >>> list(roll.find_by_mgr_id(2))
+    #     [Bob(4), Carol(6)]
+    #     >>> list(roll.find_by_mgr_id(3))
+    #     []
+    #     >>> for e in roll.find_by_mgr_id(2):
+    #     ...     print(e)
+    #     Bob(4)
+    #     Carol(6)
+    #     """
+    #     return (e for e in self if e.mgr_id == mgr_id)
+    #
+    # def all_names(self) -> List[str]:
+    #     """Returns a list of all employees' names.
+    #
+    #     >>> roll = EmployeeRoll()
+    #     >>> roll.append(Employee('Alice', 2))
+    #     >>> roll.append(Employee('Bob', 4))
+    #     >>> roll.append(Employee('Carol', 6))
+    #     >>> roll.all_names()
+    #     ['Alice', 'Bob', 'Carol']
+    #     """
+    #     pass  # TODO
 
     def all_mgr_ids(self) -> List[int]:
         """Finds the IDs of all managers (not repeated).
@@ -111,7 +115,7 @@ class EmployeeRoll:
         for e in self._employees:
             if e.mgr_id is not None and e.mgr_id not in result:
                 result.append(e.mgr_id)
-        pass  # TODO
+        return result
 
     def total_payroll(self) -> int:
         """Returns the sum of all employees' wages.
@@ -125,41 +129,41 @@ class EmployeeRoll:
         >>> roll.total_payroll()
         6000
         """
-        pass  # TODO
-
-    def raise_all(self, factor: float) -> None:
-        """Multiplies everyone's wage by the given factor.
-
-        >>> roll = EmployeeRoll()
-        >>> roll.append(Employee('Alice', 2, wage=1000))
-        >>> roll.append(Employee('Bob', 4, wage=2000))
-        >>> roll.append(Employee('Carol', 6, wage=3000))
-        >>> roll.total_payroll()
-        6000
-        >>> roll.raise_all(1.2)
-        >>> roll.total_payroll()
-        7200
-        >>> roll.find_by_id(6).wage
-        3600
-        """
-        pass  # TODO
-
-    def raise_by_mgr_id(self, mgr_id: int, factor: float) -> None:
-        """Multiplies the wage of employees whose manager is mgr_id by
-        factor.
-
-        >>> roll = EmployeeRoll()
-        >>> roll.append(Employee('Alice', 2, wage=1000, mgr_id=1))
-        >>> roll.append(Employee('Bob', 4, wage=2000, mgr_id=2))
-        >>> roll.append(Employee('Carol', 6, wage=3000, mgr_id=2))
-        >>> roll.raise_by_mgr_id(2, 1.2)
-        >>> [employee.wage for employee in roll]
-        [1000, 2400, 3600]
-        >>> roll.raise_by_mgr_id(1, 1.5)
-        >>> [employee.wage for employee in roll]
-        [1500, 2400, 3600]
-        """
-        pass  # TODO
+        return sum(e.wage for e in self)
+    #
+    # def raise_all(self, factor: float) -> None:
+    #     """Multiplies everyone's wage by the given factor.
+    #
+    #     >>> roll = EmployeeRoll()
+    #     >>> roll.append(Employee('Alice', 2, wage=1000))
+    #     >>> roll.append(Employee('Bob', 4, wage=2000))
+    #     >>> roll.append(Employee('Carol', 6, wage=3000))
+    #     >>> roll.total_payroll()
+    #     6000
+    #     >>> roll.raise_all(1.2)
+    #     >>> roll.total_payroll()
+    #     7200
+    #     >>> roll.find_by_id(6).wage
+    #     3600
+    #     """
+    #     pass  # TODO
+    #
+    # def raise_by_mgr_id(self, mgr_id: int, factor: float) -> None:
+    #     """Multiplies the wage of employees whose manager is mgr_id by
+    #     factor.
+    #
+    #     >>> roll = EmployeeRoll()
+    #     >>> roll.append(Employee('Alice', 2, wage=1000, mgr_id=1))
+    #     >>> roll.append(Employee('Bob', 4, wage=2000, mgr_id=2))
+    #     >>> roll.append(Employee('Carol', 6, wage=3000, mgr_id=2))
+    #     >>> roll.raise_by_mgr_id(2, 1.2)
+    #     >>> [employee.wage for employee in roll]
+    #     [1000, 2400, 3600]
+    #     >>> roll.raise_by_mgr_id(1, 1.5)
+    #     >>> [employee.wage for employee in roll]
+    #     [1500, 2400, 3600]
+    #     """
+    #     pass  # TODO
 
     def raise_if(self, pred: Callable[[Employee], bool], factor: float) -> None:
         """Multiplies the wage of employees satisfying the predicate by
@@ -167,7 +171,7 @@ class EmployeeRoll:
 
         >>> roll = EmployeeRoll()
         >>> roll.append(Employee('Alice', 2, wage=1000, mgr_id=1))
-        >>> roll.append(Employee('Bob', 4, wage=2000, mgr_id=2))
+        >>> roll.append(Employee('Bob', 5, wage=2000, mgr_id=2))
         >>> roll.append(Employee('Carol', 6, wage=3000, mgr_id=2))
         >>> roll.raise_if(lambda e: e.mgr_id == 2, 1.2)
         >>> [employee.wage for employee in roll]
@@ -176,25 +180,27 @@ class EmployeeRoll:
         >>> [employee.wage for employee in roll]
         [3000, 2400, 3600]
         """
-        pass  # TODO
+        for e in self:
+            if pred(e):
+                e.wage = round(e.wage * factor)
 
-    def find_root_mgr(self, id: int) -> Optional[Employee]:
-        """Finds the uppermost manager reachable from the given employee id.
-
-        >>> roll = EmployeeRoll()
-        >>> roll.append(Employee('Alice', 1))
-        >>> roll.append(Employee('Bob', 2, mgr_id=1))
-        >>> roll.append(Employee('Carol', 3, mgr_id=1))
-        >>> roll.append(Employee('Dave', 4, mgr_id=3))
-        >>> roll.find_root_mgr(0)
-        >>> roll.find_root_mgr(1)
-        Alice(1)
-        >>> roll.find_root_mgr(2)
-        Alice(1)
-        >>> roll.find_root_mgr(3)
-        Alice(1)
-        >>> roll.find_root_mgr(4)
-        Alice(1)
-        """
-        pass  # TODO
+    # def find_root_mgr(self, id: int) -> Optional[Employee]:
+    #     """Finds the uppermost manager reachable from the given employee id.
+    #
+    #     >>> roll = EmployeeRoll()
+    #     >>> roll.append(Employee('Alice', 1))
+    #     >>> roll.append(Employee('Bob', 2, mgr_id=1))
+    #     >>> roll.append(Employee('Carol', 3, mgr_id=1))
+    #     >>> roll.append(Employee('Dave', 4, mgr_id=3))
+    #     >>> roll.find_root_mgr(0)
+    #     >>> roll.find_root_mgr(1)
+    #     Alice(1)
+    #     >>> roll.find_root_mgr(2)
+    #     Alice(1)
+    #     >>> roll.find_root_mgr(3)
+    #     Alice(1)
+    #     >>> roll.find_root_mgr(4)
+    #     Alice(1)
+    #     """
+    #     pass  # TODO
 
