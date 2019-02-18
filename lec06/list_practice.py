@@ -111,11 +111,7 @@ class EmployeeRoll:
         >>> roll.all_mgr_ids()
         [1, 2]
         """
-        result: List[int] = []
-        for e in self._employees:
-            if e.mgr_id is not None and e.mgr_id not in result:
-                result.append(e.mgr_id)
-        return result
+        pass  # TODO
 
     def total_payroll(self) -> int:
         """Returns the sum of all employees' wages.
